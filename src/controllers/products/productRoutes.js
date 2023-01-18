@@ -1,14 +1,20 @@
 const express = require('express');
-const { getProducts, getProductById, createProduct } = require('./productControllers');
+
+const { 
+    getProducts,
+    getProductById, 
+    createProduct 
+} = require('./productControllers');
+
 const productRouter = express.Router();
 
-productRouter.get("/", (req, res) => {
-    const products = getProducts()
+productRouter.get("/", async (req, res) => {
+    const products = await getProducts()
     res.json(products)
 })
 
-productRouter.get("/:productId", (req, res) => {
-    const product = getProductById(req.params.productId)
+productRouter.get("/:productId", async (req, res) => {
+    const product = await getProductById(req.params.productId)
     if(!product) {
         res.status(404).json({
             data: "Product not found"
@@ -17,10 +23,10 @@ productRouter.get("/:productId", (req, res) => {
     res.json(product)
 })
 
-productRouter.post("/", (req, res) => {
-    const product = createProduct({
+productRouter.post("/", async (req, res) => {
+    const product = await createProduct({
         title: req.body.title,
-        category: req.body.category,
+        description: req.body.description,
         price: req.body.price,
         stock: req.body.stock
     })

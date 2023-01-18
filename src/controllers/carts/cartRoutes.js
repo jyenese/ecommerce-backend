@@ -1,30 +1,44 @@
-const express = require('express');
-const { getCarts, getCartById, getCartByUserId} = require('./cartControllers');
-const cartRouter = express.Router();
+const express = require("express")
 
-cartRouter.get("/", (req, res) => {
-    const carts = getCarts()
-    res.json(carts)
+const {
+    getCarts,
+    getCartById,
+    getCartByUserId,
+    getCartByUserIdWithProductInfo,
+} = require("./cartControllers")
+
+const cartRouter = express.Router()
+
+cartRouter.get("/", async (request, response) => {
+    const carts = await getCarts()
+    response.json(carts)
 })
 
-cartRouter.get("/:cartId", (req, res) => {
-    const cart = getCartById(req.params.cartId)
-    if(!cart) {
-        res.status(404).json({
-            data: "cart not found"
+cartRouter.get("/:cartId", async (request, response) => {
+    const cart = await getCartById(request.params.cartId)
+    if (!cart) {
+        response.status(404).json({
+            data: "cart doesn't exist",
         })
     }
-    res.json(cart)
+    response.json(cart)
 })
 
-cartRouter.get("/user/:userId", (req, res) => {
-    const cart = getCartByUserId(req.params.userId)
-    if(!cart) {
-        res.status(404).json({
-            data: "Cart not found"
+// /carts/user/userId?getProductInfo=true
+cartRouter.get("/user/:userId", async (request, response) => {
+    let cart
+    if (request.query.getProductInfo) {
+        cart = await getCartByUserIdWithProductInfo(request.params.userId)
+    } else {
+        cart = await getCartByUserId(request.params.userId)
+    }
+    if (!cart) {
+        return response.status(404).json({
+            data: "cart doesn't exist",
         })
     }
-    res.json(cart)
+    response.json(cart)
 })
 
-module.exports = cartRouter;
+
+module.exports = cartRouter

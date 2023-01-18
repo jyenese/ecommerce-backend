@@ -1,4 +1,5 @@
 const express = require('express');
+const mongoose = require('mongoose');
 const productRouter = require('./controllers/products/productRoutes');
 const cartRouter = require('./controllers/carts/cartRoutes');
 const app = express();
@@ -17,4 +18,8 @@ app.use("/carts", cartRouter)
 
 app.listen(PORT, () => {
     console.log(`Server is running`);
+    mongoose.set('strictQuery', false);
+    mongoose.connect("mongodb://localhost:27017/ecommerce", () => {
+        console.log("Database is connected");
+    })
 })
