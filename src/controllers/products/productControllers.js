@@ -53,8 +53,14 @@ async function createProduct(product) {
     return newProduct
 }
 
+async function deleteProduct(productId) {
+    const deletedProduct = await Product.findByIdAndDelete(productId)
+    return deletedProduct
+}
+
 module.exports = {
     getProducts,
     getProductById,
-    createProduct
+    createProduct,
+    deleteProduct,
 }
