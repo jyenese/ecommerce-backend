@@ -28,6 +28,7 @@ userRouter.post("/login", async (req, res) => {
 })
 
 userRouter.post("/admin/login", async (req, res) => {
+    console.log(req.body.password)
     const token = await loginAdmin({
         username: req.body.username,
         password: req.body.password

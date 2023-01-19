@@ -43,7 +43,7 @@ async function loginAdmin (user) {
     if(!existingUser) {
         return { error: "Username or password is incorrect" }
     }
-    const isMatch = await bcrypt.compare(user.password,existingUser.password)
+    const isMatch = await bcrypt.compare(user.password, existingUser.password)
     if(!isMatch){
         return { error: "Username or password is incorrect" }
     }
