@@ -9,7 +9,7 @@ function auth(req, res, next) {
         })
     } try {
         const payload = jwt.verify(token, "secret")
-        req.userId = payload.id
+        req.payload = payload
         next()
     } catch(err) {
         console.log(err)

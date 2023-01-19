@@ -8,6 +8,7 @@ const {
 } = require('./productControllers');
 
 const auth = require('../../middleware/auth')
+const admin = require('../../middleware/admin')
 
 const productRouter = express.Router();
 
@@ -37,12 +38,12 @@ productRouter.post("/", auth, async (req, res) => {
     res.json(product)
 })
 
-productRouter.delete("/:productId", async (req, res) => {
+productRouter.delete("/:productId",auth, admin, async (req, res) => {
     const product = await deleteProduct(req.params.productId)
     if(deleteProduct){
         res.status(200).json({
             data: {product},
-            message: "has been deleted"
+            message:  "has been deleted"
     })
 }})
 
