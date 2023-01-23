@@ -16,7 +16,7 @@ app.use(helmet())
 
 
 const corsOption = {
-    origin: ["http://localhost:3000"],
+    origin: ["http://localhost:3000", "https://lively-centaur-1bf14c.netlify.app"],
     optionSuccessStatus: 200,
 }
 
