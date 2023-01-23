@@ -54,9 +54,15 @@ async function getCartByUserIdWithProductInfo(userId) {
     return cartByUserIdWithProductInfo
 }
 
+async function createCart(cart) {
+    const createCart = await Cart.create(cart)
+    return createCart
+}
+
 module.exports = {
     getCarts,
     getCartById,
     getCartByUserId,
     getCartByUserIdWithProductInfo,
+    createCart,
 }

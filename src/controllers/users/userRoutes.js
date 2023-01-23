@@ -13,7 +13,7 @@ userRouter.post("/register", async (req, res) => {
     if(token.error) {
         return res.status(400).json({data: token.error})
     }
-    return res.json(token)
+    return res.json({ token })
 })
 
 userRouter.post("/login", async (req, res) => {
@@ -24,7 +24,7 @@ userRouter.post("/login", async (req, res) => {
     if(token.error) {
         return res.status(400).json({data: token.error})
     }
-    return res.json(token)
+    return res.json({ token })
 })
 
 userRouter.post("/admin/login", async (req, res) => {
@@ -32,7 +32,7 @@ userRouter.post("/admin/login", async (req, res) => {
         username: req.body.username,
         password: req.body.password
     })
-    return res.json(token)
+    return res.json({ token })
 })
 
 

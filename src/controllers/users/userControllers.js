@@ -2,6 +2,7 @@ const User = require('../../models/user')
 const Admin = require('../../models/admin')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
+const { createCart } = require('../carts/cartControllers')
 
 async function registerUser (user) {
     const existingUser = await User.findOne({ username: user.username })
@@ -17,13 +18,18 @@ async function registerUser (user) {
     const payload ={
         id: userCreated._id,
     }
-    const token = jwt.sign(payload, "secret")
+    const token = jwt.sign(payload, process.env.JWT_SECRET)
+    await createCart({
+        user_id: userCreated._id,
+        products: []
+    })
     return token
 
 }
 
 async function loginUser (user) {
     const existingUser = await User.findOne({ username:user.username })
+    console.log([existingUser, user])
     if(!existingUser) {
         return { error: "Username or password is incorrect" }
     }
@@ -34,7 +40,7 @@ async function loginUser (user) {
     const payload = {
         id: existingUser._id,
     }
-    const token = jwt.sign(payload, "secret")
+    const token = jwt.sign(payload, process.env.JWT_SECRET)
     return token
 }
 
@@ -51,7 +57,7 @@ async function loginAdmin (user) {
         id: existingUser._id,
         is_admin: true, 
     }
-    const token = jwt.sign(payload, "secret")
+    const token = jwt.sign(payload, process.env.JWT_SECRET)
     return token
 }
 
